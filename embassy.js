@@ -50,14 +50,14 @@ const SPEC = {
   },
   api_key: {
     type: 'string',
-    name: 'API Key',
-    description: 'API key for the selected provider.',
+    name: 'API Key (optional)',
+    description: 'Optional for local/open providers (e.g. LM Studio). Leave empty when not needed.',
     default: '',
-    nullable: false,
+    nullable: true,
     masked: true,
     copyable: false,
     pattern: '.*',
-    'pattern-description': 'Any string.',
+    'pattern-description': 'Any string, including empty.',
   },
   memory: {
     type: 'boolean',
