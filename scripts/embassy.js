@@ -102,6 +102,7 @@ export async function setConfig(effects, newConfig) {
   return {
     result: {
       signal: 'SIGTERM',
+      'depends-on': {},
     },
   };
 }
