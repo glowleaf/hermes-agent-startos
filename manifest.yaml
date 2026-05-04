@@ -1,6 +1,6 @@
 id: hermes-agent
 title: Hermes Agent
-version: 0.1.1
+version: 0.1.0
 release-notes: >
   Initial release of Hermes Agent for StartOS.
   Supports OpenRouter, Anthropic, DeepSeek, and Nous providers.
@@ -75,68 +75,6 @@ interfaces:
       ssl: false
       port-mapping:
         "8787": "8787"
-config:
-  get:
-    type: script
-  set:
-    type: script
-  spec:
-    type: object
-    name: Hermes Agent Settings
-    description: Configure provider, model, and feature toggles for Hermes Agent.
-    warning: Saving will restart Hermes Agent.
-    properties:
-      provider:
-        type: enum
-        name: Provider
-        description: Model provider to use.
-        default: openrouter
-        values:
-          - value: openrouter
-            description: OpenRouter
-          - value: anthropic
-            description: Anthropic
-          - value: deepseek
-            description: DeepSeek
-          - value: nous
-            description: Nous
-      model:
-        type: string
-        name: Model
-        description: Model name for the selected provider.
-        nullable: false
-        masked: false
-        copyable: true
-        default: anthropic/claude-sonnet-4
-        placeholder: anthropic/claude-sonnet-4
-        pattern: '.+'
-      api_key:
-        type: string
-        name: API Key
-        description: API key for the selected provider.
-        nullable: false
-        masked: true
-        copyable: false
-        default: ''
-        placeholder: sk-...
-        pattern: '.+'
-      memory:
-        type: boolean
-        name: Memory
-        description: Enable persistent memory across sessions.
-        default: true
-      web_search:
-        type: boolean
-        name: Web Search
-        description: Enable web search tools.
-        default: true
-      browser:
-        type: boolean
-        name: Browser Automation
-        description: Enable browser automation tools.
-        default: false
-properties:
-  type: script
 backup:
   create:
     type: docker
