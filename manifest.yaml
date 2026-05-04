@@ -1,0 +1,131 @@
+id: hermes-agent
+title: Hermes Agent
+version: 0.1.1
+release-notes: >
+  Initial release of Hermes Agent for StartOS.
+  Supports OpenRouter, Anthropic, DeepSeek, and Nous providers.
+  Includes Web UI on port 8787 with persistent memory.
+license: MIT
+wrapper-repo: https://github.com/glowleaf/hermes-agent-startos
+upstream-repo: https://github.com/NousResearch/hermes-agent
+support-site: https://hermes-agent.nousresearch.com/docs/
+marketing-site: https://hermes-agent.nousresearch.com/
+donation-url: null
+build: ["make"]
+description:
+  short: >
+    A personal AI assistant with Web UI. Chat with LLMs from multiple providers
+    (OpenRouter, Anthropic, DeepSeek, Nous) with persistent memory, web search,
+    and browser automation — all running on your own StartOS server.
+  long: >
+    Hermes Agent is a personal AI assistant that runs entirely on your StartOS
+    server. It provides a Web-based chat interface where you can interact with
+    large language models from multiple providers.
+
+
+    Features:
+    - Web-based chat interface on port 8787
+    - Multi-provider support: OpenRouter, Anthropic, DeepSeek, Nous
+    - Persistent memory across chat sessions
+    - Web search and browser automation tools
+    - Configurable from StartOS dashboard
+    - Runs completely on your own hardware
+
+
+    Setup:
+    1. Configure your API key and provider in the Config tab
+    2. Set your preferred model
+    3. Start the service and access the Web UI
+
+
+    Provider Setup:
+    - OpenRouter: Get key at https://openrouter.ai/keys
+    - Anthropic: Get key at https://console.anthropic.com/
+    - DeepSeek: Get key at https://platform.deepseek.com/
+    - Nous: Requires Nous Research subscription
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+main:
+  type: docker
+  image: main
+  entrypoint: /usr/local/bin/entrypoint.sh
+  args: []
+  mounts:
+    main: /data
+health-checks:
+  main:
+    name: Web UI
+    description: The web interface of Hermes Agent
+    type: docker
+    image: main
+    entrypoint: /usr/local/bin/health-check.sh
+    args: []
+    inject: true
+interfaces:
+  main:
+    name: Web UI
+    description: The web interface of Hermes Agent
+    tor-config:
+      port-mapping:
+        "8787": "8787"
+    lan-config:
+      ssl: false
+      port-mapping:
+        "8787": "8787"
+config:
+  get:
+    type: script
+  set:
+    type: script
+properties:
+  type: script
+backup:
+  create:
+    type: docker
+    image: main
+    system: false
+    entrypoint: /usr/local/bin/backup.sh
+    args: []
+    mounts:
+      main: /data
+  restore:
+    type: docker
+    image: main
+    system: false
+    entrypoint: /usr/local/bin/restore.sh
+    args: []
+    mounts:
+      main: /data
+migrations:
+  from:
+    "*":
+      type: docker
+      image: main
+      system: false
+      entrypoint: /usr/local/bin/migrate.sh
+      args: ["from", "*"]
+      mounts:
+        main: /data
+  to:
+    "*":
+      type: docker
+      image: main
+      system: false
+      entrypoint: /usr/local/bin/migrate.sh
+      args: ["to", "*"]
+      mounts:
+        main: /data
+volumes:
+  main:
+    type: data
+alerts:
+  install: null
+  update: null
+  uninstall: null
+  restore: null
+  start: null
+  stop: null
+dependencies: {}
