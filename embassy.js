@@ -12,12 +12,13 @@ const SPEC = {
     type: 'enum',
     name: 'Provider',
     description: 'Model provider to use.',
-    values: [
-      { value: 'openrouter', description: 'OpenRouter' },
-      { value: 'anthropic', description: 'Anthropic' },
-      { value: 'deepseek', description: 'DeepSeek' },
-      { value: 'nous', description: 'Nous' },
-    ],
+    values: ['openrouter', 'anthropic', 'deepseek', 'nous'],
+    'value-names': {
+      openrouter: 'OpenRouter',
+      anthropic: 'Anthropic',
+      deepseek: 'DeepSeek',
+      nous: 'Nous',
+    },
     default: 'openrouter',
   },
   model: {
@@ -29,6 +30,7 @@ const SPEC = {
     masked: false,
     copyable: true,
     pattern: '.+',
+    'pattern-description': 'Must not be empty.',
   },
   api_key: {
     type: 'string',
@@ -39,6 +41,7 @@ const SPEC = {
     masked: true,
     copyable: false,
     pattern: '.*',
+    'pattern-description': 'Any string.',
   },
   memory: {
     type: 'boolean',
@@ -81,8 +84,10 @@ export async function getConfig(effects) {
   }
 
   return {
-    spec: SPEC,
-    config: current,
+    result: {
+      config: current,
+      spec: SPEC,
+    },
   };
 }
 
@@ -94,7 +99,11 @@ export async function setConfig(effects, newConfig) {
     toWrite: JSON.stringify(cfg, null, 2),
     volumeId: 'main',
   });
-  return cfg;
+  return {
+    result: {
+      signal: 'SIGTERM',
+    },
+  };
 }
 
 export async function properties() {
