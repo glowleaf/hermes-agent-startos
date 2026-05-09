@@ -3,18 +3,20 @@ import { matches, types as T, YAML } from '@start9labs/start-sdk'
 const { string, choice, shape, boolean } = matches
 
 export type Config = {
-  provider: 'openrouter' | 'anthropic' | 'deepseek' | 'nous'
+  provider: 'openrouter' | 'anthropic' | 'deepseek' | 'nous' | 'openai' | 'opencode-go' | 'lmstudio' | 'custom'
   model: string
   api_key: string
+  base_url: string
   memory: boolean
   web_search: boolean
   browser: boolean
 }
 
 export const configMatcher: T.ExpectedExports['properties'] = shape({
-  provider: choice('openrouter', 'anthropic', 'deepseek', 'nous'),
+  provider: choice('openrouter', 'anthropic', 'deepseek', 'nous', 'openai', 'opencode-go', 'lmstudio', 'custom'),
   model: string,
   api_key: string,
+  base_url: string,
   memory: boolean,
   web_search: boolean,
   browser: boolean,
@@ -29,6 +31,7 @@ export function configToEnv(config: Config): Record<string, string> {
   const env: Record<string, string> = {
     HERMES_MODEL_PROVIDER: config.provider,
     HERMES_MODEL_DEFAULT: config.model,
+    HERMES_BASE_URL: config.base_url,
     HERMES_MEMORY_ENABLED: String(config.memory),
     HERMES_WEB_SEARCH_ENABLED: String(config.web_search),
     HERMES_BROWSER_ENABLED: String(config.browser),
@@ -46,6 +49,18 @@ export function configToEnv(config: Config): Record<string, string> {
       break
     case 'nous':
       env['NOUS_API_KEY'] = config.api_key
+      break
+    case 'openai':
+      env['OPENAI_API_KEY'] = config.api_key
+      break
+    case 'opencode-go':
+      env['OPENCODE_GO_API_KEY'] = config.api_key
+      break
+    case 'lmstudio':
+      // LM Studio uses local base_url, no API key needed
+      break
+    case 'custom':
+      env['CUSTOM_OPENAI_API_KEY'] = config.api_key
       break
   }
 
