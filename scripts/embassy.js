@@ -102,8 +102,10 @@ export async function getConfig(effects) {
   }
 
   return {
-    config: current,
-    spec: SPEC,
+    result: {
+      config: current,
+      spec: SPEC,
+    },
   };
 }
 
@@ -116,8 +118,10 @@ export async function setConfig(effects, newConfig) {
     volumeId: 'main',
   });
   return {
-    signal: 'SIGTERM',
-    'depends-on': {},
+    result: {
+      signal: 'SIGTERM',
+      'depends-on': {},
+    },
   };
 }
 
