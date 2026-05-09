@@ -116,7 +116,20 @@ alerts:
   start: null
   stop: null
 dependencies: {}
-actions: {}
+actions:
+  update-upstream:
+    name: Update Hermes Agent
+    description: Pull the latest Hermes source from Nous Research (upstream) and rebuild
+    warning: This will update the Hermes Agent software to the latest upstream version from https://github.com/NousResearch/hermes-agent
+    allowed: true
+    type: docker
+    image: start9/hermes-agent
+    system: false
+    entrypoint: /usr/local/bin/update-upstream.sh
+    args: []
+    inject: false
+    mounts:
+      main: /data
 replaces: []
 hardware-requirements:
   device: {}

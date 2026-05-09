@@ -34,11 +34,13 @@ COPY health-check.sh /usr/local/bin/health-check.sh
 COPY backup.sh /usr/local/bin/backup.sh
 COPY restore.sh /usr/local/bin/restore.sh
 COPY migrate.sh /usr/local/bin/migrate.sh
+COPY scripts/update-upstream.sh /usr/local/bin/update-upstream.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh \
              /usr/local/bin/health-check.sh \
              /usr/local/bin/backup.sh \
              /usr/local/bin/restore.sh \
-             /usr/local/bin/migrate.sh
+             /usr/local/bin/migrate.sh \
+             /usr/local/bin/update-upstream.sh
 
 # WebUI port
 EXPOSE 8787
