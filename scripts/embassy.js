@@ -13,7 +13,7 @@ const SPEC = {
     type: 'enum',
     name: 'Provider',
     description: 'Model provider to use.',
-    values: ['openrouter', 'anthropic', 'deepseek', 'nous', 'openai', 'openai-codex', 'lmstudio', 'custom'],
+    values: ['openrouter', 'anthropic', 'deepseek', 'nous', 'openai', 'openai-codex', 'opencode-go', 'lmstudio', 'custom'],
     'value-names': {
       openrouter: 'OpenRouter',
       anthropic: 'Anthropic',
@@ -21,6 +21,7 @@ const SPEC = {
       nous: 'Nous',
       openai: 'OpenAI',
       'openai-codex': 'OpenAI Codex',
+      'opencode-go': 'OpenCode Go',
       lmstudio: 'LM Studio',
       custom: 'Custom (OpenAI-compatible)',
     },
@@ -40,7 +41,7 @@ const SPEC = {
   base_url: {
     type: 'string',
     name: 'Base URL',
-    description: 'Optional API base URL (use for LM Studio or custom OpenAI-compatible endpoints).',
+    description: 'Custom API base URL (e.g. http://192.168.1.52:1234 for LM Studio).',
     default: '',
     nullable: false,
     masked: false,
@@ -50,10 +51,10 @@ const SPEC = {
   },
   api_key: {
     type: 'string',
-    name: 'API Key (optional)',
-    description: 'Optional for local/open providers (e.g. LM Studio). Leave empty when not needed.',
+    name: 'API Key',
+    description: 'API key for the selected provider (leave empty for LM Studio).',
     default: '',
-    nullable: true,
+    nullable: false,
     masked: true,
     copyable: false,
     pattern: '.*',
@@ -101,10 +102,8 @@ export async function getConfig(effects) {
   }
 
   return {
-    result: {
-      config: current,
-      spec: SPEC,
-    },
+    config: current,
+    spec: SPEC,
   };
 }
 
@@ -117,10 +116,8 @@ export async function setConfig(effects, newConfig) {
     volumeId: 'main',
   });
   return {
-    result: {
-      signal: 'SIGTERM',
-      'depends-on': {},
-    },
+    signal: 'SIGTERM',
+    'depends-on': {},
   };
 }
 
