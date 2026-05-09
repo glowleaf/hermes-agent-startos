@@ -71,3 +71,63 @@ hermes-agent-startos/
 │   └── utils.ts
 └── README.md
 ```
+
+## Usage
+
+Once Hermes Agent is running on StartOS, access the Web UI at:
+
+```
+http://<startos-ip>:8787
+```
+
+### Configuring a Provider
+
+1. Go to StartOS → Hermes Agent → Config
+2. Select a **Provider**:
+   - **OpenRouter** — connects to OpenRouter's API (supports 200+ models)
+   - **Anthropic** — direct Anthropic API (Claude models)
+   - **DeepSeek** — DeepSeek API
+   - **Nous** — Nous Research API
+   - **OpenAI** — OpenAI API (GPT models)
+   - **OpenCode Go** — OpenCode API
+   - **LM Studio** — connect to a local LM Studio instance on your network
+   - **Custom** — any OpenAI-compatible endpoint
+3. Enter your **Model** name (e.g. `anthropic/claude-sonnet-4`, `deepseek-v4-flash`, `qwen/qwen3.5-9b`)
+4. For remote providers: enter your **API Key**
+5. For local endpoints (LM Studio, Custom): enter the **Base URL** (e.g. `http://192.168.1.52:1234`)
+6. Toggle features: **Memory**, **Web Search**, **Browser Automation**
+7. Save — the service restarts automatically
+
+### CLI Access (SSH into StartOS)
+
+If you have SSH access to the StartOS server:
+
+```bash
+# Access the running container
+sudo podman exec -it hermes-agent.1.0.1 /bin/bash
+
+# Run Hermes commands directly
+hermes --help
+```
+
+### Telegram Integration
+
+Hermes Agent can connect to Telegram as a bot:
+
+1. Create a bot via [@BotFather](https://t.me/botfather) and get a token
+2. In the container, run:
+   ```bash
+   hermes telegram connect --token <your-bot-token>
+   ```
+3. The bot will appear in your Telegram and respond to commands
+
+### Troubleshooting
+
+**Web UI not loading**: Check StartOS → Hermes Agent → Logs. The container starts an HTTP server on port 8787.
+
+**Config page shows an error**: Ensure you're on the latest s9pk build. Re-sideload from the [releases page](https://github.com/glowleaf/hermes-agent-startos/releases).
+
+**Provider not connecting**: Verify API keys in Config. For LM Studio, confirm the instance is running and reachable at the Base URL you entered.
+
+**Container keeps restarting**: Check logs for Python dependency errors or token limits.
+```
