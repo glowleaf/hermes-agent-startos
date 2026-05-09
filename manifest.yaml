@@ -23,7 +23,7 @@ assets:
   docker-images: image.tar
 main:
   type: docker
-  image: main
+  image: start9/hermes-agent
   system: false
   entrypoint: /usr/local/bin/entrypoint.sh
   args: []
@@ -35,7 +35,7 @@ health-checks:
     name: Web UI
     success-message: Hermes dashboard is ready
     type: docker
-    image: main
+    image: start9/hermes-agent
     system: false
     entrypoint: /usr/local/bin/health-check.sh
     args: []
@@ -66,7 +66,7 @@ properties:
 backup:
   create:
     type: docker
-    image: main
+    image: start9/hermes-agent
     system: false
     entrypoint: /usr/local/bin/backup.sh
     args: []
@@ -75,7 +75,7 @@ backup:
       main: /data
   restore:
     type: docker
-    image: main
+    image: start9/hermes-agent
     system: false
     entrypoint: /usr/local/bin/restore.sh
     args: []
@@ -86,7 +86,7 @@ migrations:
   from:
     "*":
       type: docker
-      image: main
+      image: start9/hermes-agent
       system: false
       entrypoint: /usr/local/bin/migrate.sh
       args: ["from", "*"]
@@ -97,7 +97,7 @@ migrations:
   to:
     "*":
       type: docker
-      image: main
+      image: start9/hermes-agent
       system: false
       entrypoint: /usr/local/bin/migrate.sh
       args: ["to", "*"]
