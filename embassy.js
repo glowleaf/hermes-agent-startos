@@ -13,7 +13,7 @@ const SPEC = {
     type: 'enum',
     name: 'Provider',
     description: 'Model provider to use.',
-    values: ['openrouter', 'anthropic', 'deepseek', 'nous', 'openai', 'openai-codex', 'lmstudio', 'custom'],
+    values: ['openrouter', 'anthropic', 'deepseek', 'nous', 'openai', 'openai-codex', 'opencode-go', 'lmstudio', 'custom'],
     'value-names': {
       openrouter: 'OpenRouter',
       anthropic: 'Anthropic',
@@ -21,6 +21,7 @@ const SPEC = {
       nous: 'Nous',
       openai: 'OpenAI',
       'openai-codex': 'OpenAI Codex',
+      'opencode-go': 'OpenCode Go',
       lmstudio: 'LM Studio',
       custom: 'Custom (OpenAI-compatible)',
     },
